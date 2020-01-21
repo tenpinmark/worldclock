@@ -7,7 +7,8 @@
 Module.register("worldclock",{
   // Module config defaults.
   defaults: {
-    timeFormat: 'LT', //defined in moment.js format()
+	float: 'left',  // Add this to align module withing the same region
+	timeFormat: 'LT', //defined in moment.js format()
     style: 'left', //where the time could be located; 'top', 'left','right','bottom'
     offsetTimezone: null, // or "Europe/Berlin" to get difference from this timezone to each clock.
     clocks: [
@@ -170,6 +171,20 @@ Module.register("worldclock",{
     for (c in this.config.clocks) {
       wrapper.appendChild(this.clockFormat(this.config.clocks[c], c))
     }
+	
+    // Code added to shift the module left or right within the same region
+    if (this.config.float!== ""){
+       // get the MM div container for this module (parent of our wrapper div)
+       document.getElementById(this.identifier).style.float=this.config.float;			
+       // adjust the border between instances
+       if (this.config.spacing !==""){
+           if(this.config.float === "left")
+               document.getElementById(this.identifier).style.marginLeft=this.config.spacing
+           else if(this.config.float === "right")
+               document.getElementById(this.identifier).style.marginRight=this.config.spacing
+        }
+    }
+	
     return wrapper
   },
 
